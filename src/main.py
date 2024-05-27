@@ -10,6 +10,8 @@ IMG_HEIGHT = 240
 IMG_WIDTH = 240
 SEED = 123
 
+keras.utils.set_random_seed(SEED)
+
 train_ds = keras.utils.image_dataset_from_directory(
     DATA_DIR,
     validation_split=0.2,
@@ -49,7 +51,7 @@ for image_batch, labels_batch in train_ds:
     print(labels_batch.shape)
     break
 
-input()
+# input()
 # Normalization Layer
 # normalization_layer = keras.layers.Rescaling(1.0 / 255)
 # normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
@@ -69,7 +71,11 @@ num_classes = 2
 
 model = keras.Sequential(
     [
+        # keras.layers.InputLayer(shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
+        keras.Input(shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
         keras.layers.Rescaling(1.0 / 255),
+        keras.layers.Conv2D(32, 3, activation="relu"),
+        keras.layers.MaxPooling2D(),
         keras.layers.Conv2D(32, 3, activation="relu"),
         keras.layers.MaxPooling2D(),
         keras.layers.Conv2D(32, 3, activation="relu"),
@@ -78,7 +84,7 @@ model = keras.Sequential(
         keras.layers.MaxPooling2D(),
         keras.layers.Flatten(),
         keras.layers.Dense(128, activation="relu"),
-        keras.layers.Dense(num_classes),
+        keras.layers.Dense(num_classes, activation="softmax"),
     ]
 )
 
@@ -88,7 +94,7 @@ model.summary()
 
 model.compile(
     optimizer="adam",
-    loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    loss="sparse_categorical_crossentropy",
     metrics=["accuracy"],
 )
 
