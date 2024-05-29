@@ -4,6 +4,8 @@ from keras.layers import Dense, Flatten
 from keras.src.legacy.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
+from keras.utils import plot_model
+
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # print(tf.test.is_built_with_cuda())
 # input()
@@ -25,6 +27,8 @@ model = models.Model(inputs=vgg16.input, outputs=x)
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
 model.summary()
+plot_model(model, to_file="model.png", show_shapes=True, rankdir="LR")
+input()
 
 # prepare
 datagen = ImageDataGenerator(rescale=1.0 / 255, validation_split=0.2)
