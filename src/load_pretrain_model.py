@@ -86,6 +86,7 @@ from keras.src.legacy.preprocessing.image import ImageDataGenerator
 # 定義路徑
 model_path = "./vgg16_model.keras"
 data_path = "../data"
+# data_path = "../data_our_pic"
 error_path = "./predict_fail"
 
 # 載入模型
@@ -103,6 +104,7 @@ data_generator = datagen.flow_from_directory(
 
 # 獲取實際標籤
 true_labels = data_generator.classes
+label_map = {v: k for k, v in data_generator.class_indices.items()}
 
 # 獲取檔案名稱
 file_names = data_generator.filenames
@@ -118,10 +120,14 @@ incorrect_indices = np.where(predicted_labels != true_labels)[0]
 if not os.path.exists(error_path):
     os.makedirs(error_path)
 
-# 複製錯誤圖片到錯誤資料夾
+# 複製錯誤圖片到錯誤資料夾，並在檔名中標記原本的標籤和預測的標籤
 for i in incorrect_indices:
     src_file = os.path.join(data_path, file_names[i])
-    dst_file = os.path.join(error_path, os.path.basename(file_names[i]))
+    original_label = label_map[true_labels[i]]
+    predicted_label = label_map[predicted_labels[i]]
+    file_name = os.path.basename(file_names[i])
+    new_file_name = f"true_{original_label}_pred_{predicted_label}_{os.path.splitext(file_name)[0]}{os.path.splitext(file_name)[1]}"
+    dst_file = os.path.join(error_path, new_file_name)
     shutil.copy(src_file, dst_file)
 
 print(f"共複製了 {len(incorrect_indices)} 張預測錯誤的圖片到 {error_path}。")

@@ -24,6 +24,8 @@ x = Dense(units=2, activation="softmax")(x)
 model = models.Model(inputs=vgg16.input, outputs=x)
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
+model.summary()
+
 # prepare
 datagen = ImageDataGenerator(rescale=1.0 / 255, validation_split=0.2)
 train_df = datagen.flow_from_directory(
