@@ -18,7 +18,7 @@ py -m pip install -r requirements-plot-model.txt
 ```
 
 ## Note
-此份報告內容大量使用 `ChatGPT` 輔助撰寫程式碼，並大量參考使用 TensorFlow 官方文件教學程式碼，僅自行更動部分參數、結構與資訊輸出供參考與撰寫報告使用。
+此份報告內容多處使用 `ChatGPT`、`GitHub Copilot` 輔助撰寫程式碼，並多處參考使用 TensorFlow 官方文件教學程式碼，僅自行更動部分參數、結構、方法與供參考與撰寫報告使用之資訊輸出。
 
 ## Acknowledgements
 [Shoes Dataset: Real and AI-Generated Images](https://github.com/sunkakar/dataset-shoes-ai-generated), by [@Sundeep Kakar](https://github.com/sunkakar/) 2024
